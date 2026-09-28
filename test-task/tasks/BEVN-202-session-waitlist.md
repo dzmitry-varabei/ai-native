@@ -1,11 +1,14 @@
-# BEVN-202 — Session Waitlist
+# BEVN-202 — Лист ожидания на сессию
 
-> Phase 2 — New Features · both tracks · SPEC-DRIVEN
-> Rules & route: [README.md](../README.md)
+> Ядро курса · после BEVN-115 · ~3–5 дней · spec-driven · читать: [Спека, план, реализация](../../ru/basics/spec.md)
+
+**Зачем.** Код пишет агент, а вы присутствуете на каждом шаге как оператор — тот, кто ловит ошибку агента до того, как её дорого менять. На spec-driven задаче конвейер легко принять за церемонию: спека — потому что требуют правила, план — потому что его будет искать проверяющий. Смысл другой: проверить можно только слой, который вы понимаете, и только на том шаге, где вы присутствуете. Почему процесс поставки вообще собран из этих шагов — в [лонгриде 03: AI-фабрика](../../ru/longread/03-ai-factory.md); здесь вы почувствуете это руками.
+
+## Тикет
 
 When a session has reached its capacity, an attendee can join a waitlist. If a registered attendee cancels, the first person on the waitlist is automatically promoted to a confirmed registration. This promotion should be logged. The session detail page shows current registration count, capacity, and waitlist count.
 
-**Definition of Done:**
+**Definition of Done**
 - [ ] `POST /api/sessions/{id}/waitlist` adds an attendee to the waitlist
 - [ ] Registering for a session at capacity returns 409 — does not auto-waitlist
 - [ ] Cancelling a confirmed registration triggers automatic promotion of the next waitlisted attendee
@@ -14,48 +17,52 @@ When a session has reached its capacity, an attendee can join a waitlist. If a r
 - [ ] Session detail page shows capacity and waitlist count
 - [ ] Unit tests cover: join waitlist, cancel triggers promotion, waitlist ordering
 
----
+## Как работать: оператор на каждом шаге
 
-> **Pilot addition — the operator on every step.** The DoD above defines *what* to build. This addition defines *how you watch yourself work* and adds deliverables to the same PR.
+DoD тикета говорит, *что* построить. Этот раздел — *как* вы наблюдаете за собой в работе, и добавляет результаты в тот же PR. Задача идёт через фиксированную последовательность шагов — [поток задачи на фабрике](../../ru/basics/factory.md#поток-задачи) в минимальной практической форме:
 
-On a spec-driven task it is easy to experience the pipeline as ceremony — a spec because the rules demand one, a plan because the reviewer will look for it. The pipeline exists for a different reason: the agent writes the code, and **you are present at every step as the operator** — the person who catches what the agent got wrong *before* it becomes expensive to change. You validate with what you know; you cannot check a layer you don't understand. Why a delivery process is built from these steps at all is the subject of [doc 03: The AI factory](../../en/03-ai-factory.md) — this task is where you feel it in your hands.
-
-The task flows through a fixed sequence of steps — the [AI SDLC](../../en/requirements/ai-sdlc.md) in its smallest practical form:
-
-| Step | The agent side: session and context | The operator's job |
+| Шаг | Сторона агента: сессия и контекст | Работа оператора |
 |---|---|---|
-| **ticket** | your working session starts; context: the ticket text (from the tracker via MCP, or pasted by you) + the codebase to explore | understand the requirement, find what it touches, ask questions |
-| **spec** | same session: brainstorming → `spec.md` | own the acceptance criteria; settle contentious cases in writing |
-| **plan** | same session; context: the spec + the codebase → `plan.md` | read it end to end, check it against the spec |
-| **critic** | a **fresh session**: the spec, the plan, the code where the plan's claims need checking — but none of your conversation and its assumptions | commission it; resolve every finding with an explicit verdict — then **gate 1: approve the plan**; nothing is built before your verdict |
-| **implementation** | a session that could start fresh: `plan.md` + project rules + the code are meant to be enough — if it only works with your old conversation loaded, the plan is incomplete; the context grows with every step | watch context and cost; stop early; intervene by hand |
-| **checks** | no session at all — CI and hooks run with no memory and no opinions | know what the tests actually run and what really blocks the merge |
-| **evidence** | none: artifacts in the repository | task ID in the branch name; spec, plan, devlog, checks record — committed |
-| **PR** | the agent drafts the description *from its own context* — exactly why you don't rely on it | read the diff yourself — **gate 2: accept or reject** |
+| **ticket** | стартует рабочая сессия; контекст — текст тикета (из трекера через MCP или вставлен вами) + кодовая база | понять требование, найти, что оно задевает, задать вопросы |
+| **spec** | та же сессия: brainstorming → `spec.md` | владеть критериями приёмки; спорные случаи решить письменно |
+| **plan** | та же сессия; контекст — спека + код → `plan.md` | прочитать целиком, сверить со спекой |
+| **critic** | **новая сессия**: спека, план, код там, где утверждения плана надо проверить, — но без вашего разговора и его допущений | заказать критика; по каждой находке — явный вердикт; затем **гейт 1: утвердить план** — до вашего вердикта ничего не строится |
+| **implementation** | сессия, которая могла бы стартовать с нуля: `plan.md` + правила проекта + код должны быть достаточны — если работает только со старым разговором, план неполон; контекст растёт с каждым шагом | следить за контекстом и ценой; останавливать рано; вмешиваться руками |
+| **checks** | никакой сессии: CI и хуки работают без памяти и без мнений | знать, что на самом деле запускают тесты и что реально блокирует мерж |
+| **evidence** | нет: артефакты в репозитории | ID задачи в имени ветки; спека, план, devlog, записи проверок — в коммитах |
+| **PR** | агент пишет описание *из своего контекста* — именно поэтому на него не опираются | прочитать дифф самому — **гейт 2: принять или отклонить** |
 
-It is not a straight line — work gets sent back:
+Это не прямая линия — работа возвращается назад: находки критика открывают заново **план**; красные проверки и замечания ревью — **код**; реализация может открыть даже **спеку**, если докажет, что критерии приёмки неверны.
 
-- critic findings reopen the **plan**;
-- red checks and PR review comments reopen the **code**;
-- implementation can even reopen the **spec**, if it proves the acceptance criteria wrong.
+**Критик — паттерн, а не один шаг:** свежая сессия, узкий бриф, явный вердикт по каждой находке. Зрелый конвейер запускает его в нескольких точках, глубина зависит от риска. Здесь он работает на плане; [EXT-303](../side-quests/EXT-303-critic-before-merge.md) запускает тот же паттерн на готовом диффе перед мержем — на настоящей фабрике такой гейт ревью блокирует путь к PR. И **критик — не гейт:** критик советует, гейт решает. Оба гейта здесь ваши.
 
-One naming note: the *critic* is a pattern, not a single step — a fresh session with a narrow brief and an explicit verdict on every finding. A mature pipeline runs it at several points, and the depth depends on the risk. Here it runs on the plan; [EXT-303](../side-quests/EXT-303-critic-before-merge.md) runs the same pattern on the completed diff before merge, and on a real factory a review gate like that blocks the path to the PR. And a critic is not a gate: a critic advises, a gate decides — both gates here are yours.
+**Инструменты:** обычный spec-driven сетап (superpowers в Claude Code или тот же поток с закоммиченными `spec.md` и `plan.md`). Он оркеструет только часть карты: критика, доказательства и проверку PR за вас никто не сделает. Увидеть, где кончается автоматизация и начинается оператор, — часть упражнения.
 
-**Tooling:** the usual spec-driven setup (superpowers in Claude Code, or the equivalent flow with `spec.md` and `plan.md` committed). It orchestrates only part of the map: nobody runs the critic, keeps the evidence, or validates the PR for you. Seeing where the automation ends and the operator begins is part of the exercise.
+**Журнал оператора — запись этой задачи в devlog.** Отдельного файла нет: под `## BEVN-202` в [devlog](../rules.ru.md#devlog) — восемь коротких подзаписей, по одной на шаг (`### ticket`, `### spec`, …), каждая пишется *на* этом шаге, а не восстанавливается потом. Каждая отвечает на три вопроса:
 
-**The operator journal — this task's devlog entry.** No separate file: for BEVN-202 the [devlog](../README.md#development-log-and-defense) entry is kept differently — eight short sub-entries under `## BEVN-202`, one per step (`### ticket`, `### spec`, …), each written *at* that step, not reconstructed afterwards. Each answers three questions:
+1. Что я сделал здесь такого, чего агент не мог или не должен был сделать за меня?
+2. Что я поймал, поставил под сомнение или решил? (Или честно: ничего — и что я проверил, чтобы так заключить.)
+3. Накопленная цена на конец шага (`/usage` в Claude Code или аналог в вашем агенте) — разности соседних значений дают цену каждого шага. Если потом возьмёте [EXT-306](../side-quests/EXT-306-cost-of-your-work.md), эти строки — готовые входные данные.
 
-1. What did I do here that the agent could not or should not do for me?
-2. What did I catch, question, or decide? (Or honestly: nothing — and what did I check to conclude that?)
-3. The cumulative cost at the end of the step (`/cost` in Claude Code, or your agent's equivalent) — consecutive values give you the cost of every step.
-
-(If you later take [EXT-306](../side-quests/EXT-306-cost-of-your-work.md), these cost lines are ready input.)
-
-**Additional Definition of Done:**
+**Дополнительный Definition of Done**
 - [ ] The BEVN-202 devlog section has an entry for every step, and the commit history shows the entries were written along the way, not backfilled at the end
 - [ ] The *ticket* entry records at least one question you asked about the requirements (or names the ambiguity you looked for and didn't find)
 - [ ] The *plan* or *critic* entry records at least one material decision the agent made that the ticket didn't spell out — with your explicit verdict on it — or names the decisions you checked and why none needed a verdict
 - [ ] The *PR* entry records how you validated the result yourself, without relying on the agent's summary
 - [ ] A closing debrief in the devlog: which step turned out to be the most work for you as operator — and is that where you expected it?
 
-**What stays in whose head.** When this task merges, the agent's head — its context window — is compacted and discarded. Everything it "learned" about waitlists, promotions, and your codebase: gone. Tomorrow's session arrives as a bright, confident stranger who has never heard of BEVN-202. (This is not a bug to fix but a fact to design around — it is why project knowledge files and skills exist; see [EXT-301](../side-quests/EXT-301-project-knowledge-file.md) and [EXT-304](../side-quests/EXT-304-first-skill.md).) The principle: session context is not durable project knowledge — anything that exists only in the conversation is disposable; anything that must survive has to become a repository artifact. What stays in *your* head is different: the domain, the map of the system, the scar from the silent decision you almost let through. Of the two of you, only one accumulates — and the journal is how you check that it's you. The journal itself is not yet the factory's **second output** (doc 03: the reusable artifacts that make the next task cheaper) — it is where you notice what deserves to become one.
+## Докажи, что работает
+
+- **Один e2e-тест на Playwright на вашу фичу:** записаться в заполненную сессию → отказ (409) → встать в лист ожидания → отменить подтверждённую регистрацию → первый из листа повышен до подтверждённой. Тест в репозитории и запускается в CI.
+- Ссылка на зелёный прогон CI на PR: юнит-тесты из DoD и e2e-тест.
+- Спека, план и журнал оператора — в коммитах ветки; по истории видно, что журнал писался по ходу.
+
+## Объясни
+
+- **Что остаётся в чьей голове.** Когда задача смержена, контекст агента сжимается и выбрасывается: всё, что он «узнал» про лист ожидания, повышения и ваш код, — исчезло. Завтрашняя сессия придёт уверенным незнакомцем, который никогда не слышал о BEVN-202. Это не баг, а факт, под который проектируют: поэтому существуют файлы знаний проекта и скиллы ([EXT-301](../side-quests/EXT-301-project-knowledge-file.md), [EXT-304](../side-quests/EXT-304-first-skill.md)). Контекст сессии — не долговременное знание: то, что есть только в разговоре, одноразово; то, что должно выжить, становится артефактом в репозитории. В вашей голове остаётся другое: домен, карта системы, шрам от тихого решения, которое вы чуть не пропустили. Из вас двоих накапливает только один — журнал показывает, вы ли это. Сам журнал ещё не **второй выход** фабрики (переиспользуемые артефакты, которые удешевляют следующую задачу, — лонгрид 03), но в нём вы замечаете, что заслуживает им стать. Что из этой задачи вы бы превратили в такой артефакт?
+- Какое тихое решение агента вы поймали — или чуть не пропустили? На каком шаге его было дешевле всего поймать?
+- Что в этой задаче могло быть скриптом, а не работой агента?
+
+## Цена
+
+Накопленная цена по шагам уже в журнале оператора; итог задачи — одной строкой в devlog ([отчёт аналитики](../codemie-analytics.md) или `/usage` в Claude Code).

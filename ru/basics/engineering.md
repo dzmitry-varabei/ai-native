@@ -44,7 +44,7 @@
 - **Docker** — [Get Started](https://docs.docker.com/get-started/).
 - **e2e** — [документация Playwright](https://playwright.dev/).
 - **Курсы RS School** — [rs.school/courses](https://rs.school/courses).
-- **Практика** — [тестовое задание](../../test-task/README.md): там вы разбираете чужую кодовую базу и проводите фичу от фронта до базы.
+- **Практика** — [тестовое задание](../../test-task/README.ru.md): там вы разбираете чужую кодовую базу и проводите фичу от фронта до базы.
 
 ## Проверь себя
 
