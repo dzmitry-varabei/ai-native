@@ -1,6 +1,6 @@
 # EXT-100 — Импорт маршрута в GitHub Issues через MCP
 
-> Ядро курса · старт · ~1–2 часа · читать: [Контекст агента](../../ru/basics/context.md)
+> Задание · ~1–2 часа · читать: [Контекст агента](../../ru/basics/context.md)
 
 **Зачем.** Вы подключаете агенту внешний инструмент через MCP (протокол, которым к агенту подключают трекер, базу, документацию) и получаете трекер, на который ссылается каждая ветка и каждый PR: «тикет → ветка → PR», как на реальном проекте. Заодно учитесь держать секрет вне контекста агента: токен, который агент однажды прочитал, остаётся в логе сессии на диске, и его может прочитать любой другой инструмент на вашей машине.
 
@@ -8,7 +8,7 @@
 
 The route lives as markdown files in this program repository. Your **working repository** (your copy of the [code template](https://github.com/dzmitry-varabei/brown-events-pilot)) needs its own tracker: one GitHub Issue per task, so that every branch and PR can reference the issue it implements.
 
-Don't create the issues by hand. Set up the **GitHub MCP server** for your coding agent and have the agent create the issues. Import the course core tasks in route order: EXT-100, BEVN-001, EXT-110, BEVN-115, BEVN-202 (see [course](../course.ru.md)). Add module tasks as issues when you take them.
+Don't create the issues by hand. Set up the **GitHub MCP server** for your coding agent and have the agent create the issues. Import the tasks of your route, in order. Add further tasks as issues when you take them.
 
 The GitHub MCP server needs a personal access token. Keep the token out of the agent's session: keep the MCP config outside the repository, or reference an environment variable instead of the literal token. If the token was ever printed in the chat, revoke it and create a new one.
 
@@ -22,7 +22,7 @@ The GitHub MCP server needs a personal access token. Keep the token out of the a
 
 ## Докажи, что работает
 
-- Ссылка на список issues в PR: пять заданий ядра в порядке маршрута, у каждого — полный текст задания.
+- Ссылка на список issues в PR: все задания вашего маршрута в порядке выполнения, у каждого — полный текст задания.
 - В PR — где лежит конфиг MCP и как в него попадает токен (переменная окружения или файл вне репозитория). Сам токен не показывайте.
 
 ## Объясни
