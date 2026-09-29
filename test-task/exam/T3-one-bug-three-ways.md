@@ -29,8 +29,6 @@ Merge only the best branch through a PR. Keep the other two branches pushed for 
 - [ ] The devlog has a table: approach → cost → time → quality (what it missed or had to redo)
 - [ ] One branch merged via PR; the other two stay on the remote
 
-Про бэкенд-тест: существующие тесты работают на EF Core InMemory, а он не выполняет SQL, так что считать запросы на нём нечем. Нужен реляционный провайдер: PostgreSQL из `docker-compose` или SQLite.
-
 Про smoke-тест: он появляется в шаблоне [brown-events-pilot](https://github.com/dzmitry-varabei/brown-events-pilot). Если в вашей копии его ещё нет — пропустите этот пункт и напишите об этом в devlog.
 
 ## Докажи, что работает
