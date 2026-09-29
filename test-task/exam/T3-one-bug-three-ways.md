@@ -8,7 +8,7 @@
 
 Pick one bug by your stack:
 
-- **Frontend** — [BEVN-115](../tasks/BEVN-115-registration-modal-state.md): the registration modal keeps stale form data and the success screen after it is closed.
+- **Frontend** — [EXT-120](../tasks/EXT-120-registrations-list-stale.md): after a successful registration, the new attendee does not appear in the Registrations section until the page is reloaded.
 - **Backend** — [BEVN-101](../tasks/BEVN-101-sessions-page-slow.md): the conference page gets slower with more sessions because of N+1 SQL queries.
 
 Reproduce the bug first, before any fix. Then fix it three times, in three branches from the same commit:
@@ -21,10 +21,12 @@ In another agent, use its equivalents: a mid-tier model for (a) and (b), a stron
 
 Merge only the best branch through a PR. Keep the other two branches pushed for review.
 
+Keep the comparison fair: all three branches start from the same commit; each approach runs in new sessions, with no results of the other attempts in the context; every branch goes through the same set of acceptance checks; any manual intervention is recorded in the table. The conclusion is about this experiment, not a ranking of models.
+
 **Definition of Done**
 - [ ] Steps to reproduce the bug are in the devlog, written before any fix
 - [ ] Each branch has a test that fails without the fix and passes with it. Frontend: a component test or a Playwright e2e test. Backend: an integration test that checks the number of SQL queries for the endpoint does not grow with the number of sessions
-- [ ] Each branch is taken as far as that approach gets; where it falls short of the ticket's Definition of Done, the table says what is missing
+- [ ] Every branch keeps the attempt, the test and the actual result; the ticket's full Definition of Done is required only for the branch you merge. Where another branch falls short of it, the table says what is missing
 - [ ] The Playwright smoke test from the code repository runs in each branch; output attached
 - [ ] The devlog has a table: approach → cost → time → quality (what it missed or had to redo)
 - [ ] One branch merged via PR; the other two stay on the remote
@@ -39,7 +41,8 @@ Merge only the best branch through a PR. Keep the other two branches pushed for 
 
 ## Объясни
 
-- Почему тест именно этого уровня пирамиды? Для бэка: почему e2e-тест не поймал бы N+1?
+- Почему тест именно этого уровня пирамиды? Что измеряет ваш тест и почему обычная проверка интерфейса может пропустить этот баг?
+- Что ваш тест НЕ проверяет? Приведите пример неправильного фикса, который он пропустил бы.
 - Откуда разница в цене между способами? Покажите по отчёту, на каком шаге ушли токены.
 - Что пропустил или сделал иначе самый дешёвый способ — и заметили бы вы это без теста?
 - Что в этой задаче могло быть скриптом, а не работой агента?

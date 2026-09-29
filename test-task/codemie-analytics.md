@@ -26,12 +26,12 @@ Installing CodeMie globally is not necessary — every command below runs throug
 This is an optional "for yourself" step — to see what the report looks like and get the stats of all your agent work for a week:
 
 ```bash
-npx -y -p @codemieai/code codemie analytics --report \
+npx -y -p @codemieai/code codemie analytics \
   --last 7d --include-external \
-  --report-format both --report-output ./my-report.html
+  --export both -o ./my-report/
 ```
 
-`my-report.html` (a dashboard — open it in a browser) and `my-report.json` (the same data for machine processing) appear in the current folder. The `--include-external` flag includes all native agent sessions on the machine; `--last 7d` is a 7-day window (you can use `--last 24h`, or exact dates via `--from 2026-08-20 --to 2026-08-24`).
+`codemie-analytics-<date>.html` (a dashboard — open it in a browser) and `codemie-analytics-<date>.report.json` (the same data for machine processing) appear in the `my-report/` folder. The `--include-external` flag includes all native agent sessions on the machine; `--last 7d` is a 7-day window (you can use `--last 24h`, or exact dates via `--from 2026-08-20 --to 2026-08-24`).
 
 *Don't send this full report to anyone — it contains all your projects and personal sessions.*
 
@@ -44,15 +44,15 @@ npx -y -p @codemieai/code codemie analytics --report \
 3. **When done, build the report for that folder only** (you can run it from the folder itself). The report must cover **the whole period of the task** — usually 14–20 days, hence the 30-day window in the command:
 
    ```bash
-   npx -y -p @codemieai/code codemie analytics --report \
+   npx -y -p @codemieai/code codemie analytics \
      --last 30d --include-external \
      --project brown-events-pilot \
-     --report-format both --report-output ./report.html
+     --export both -o ./report/
    ```
 
    *`--project brown-events-pilot` filters by folder name: only sessions from it get into the report; the rest of your projects and personal sessions stay out. If your folder is named differently — substitute your name. If the task took longer than a month — give exact dates: `--from ... --to ...`.*
 
-4. **Check and send.** Open `report.html` in a browser and make sure it contains only the test-task sessions. Then deliver both files — `report.json` and `report.html` — the way the task rules ask (committed to your repository).
+4. **Check and send.** Open `report/codemie-analytics-<date>.html` in a browser and make sure it contains only the test-task sessions. Then deliver both files — `codemie-analytics-<date>.report.json` and `codemie-analytics-<date>.html` — the way the task rules ask (committed to your repository).
 
 ## Important! The Task Number Goes into the Branch, the Commits, and the Sessions
 
@@ -62,7 +62,7 @@ Every activity must be tied to its task number — that's how the reviewer trace
 2. **Start the session's first message with the number:** "*BEVN-104: standardize the API error responses...*". The first message becomes the session's title — the session list reads as "which session — for which task". This is the backup for sessions where no branch exists yet (discussion, planning on `main`).
 3. **Commits and PRs** — as the rules ask: the number in the commit message (`feat: add waitlist (BEVN-202)`) and in the PR title.
 
-Bonus: the report can be sliced per task by branch — `codemie analytics --report --branch BEVN-202 ...` shows only that task's sessions.
+Bonus: the report can be sliced per task by branch — `codemie analytics --branch BEVN-202 --export html ...` shows only that task's sessions.
 
 ## What the Reviewer Will See
 
