@@ -9,7 +9,7 @@
 Set up the working environment for the coding agent in your copy of the [code template](https://github.com/dzmitry-varabei/brown-events-pilot).
 
 1. Connect the GitHub MCP server to your coding agent. Then ask the agent to create one GitHub issue per exam task (T1, T2, T3) in your repository. Do not create issues by hand in the web UI.
-2. The MCP server needs a personal access token. Keep it out of the agent's session: keep the MCP config outside the repository or reference an environment variable instead of the literal token. Then block the agent from reading `.env` and the MCP config — with a `deny` rule in the permission settings and/or a `PreToolUse` hook. A line in `CLAUDE.md` like "do not read .env" is not enough.
+2. The MCP server needs a personal access token. Keep the literal token out of the repository and out of files the agent reads: keep the MCP config outside the repository or reference an environment variable. This protects against an accidental commit and a direct file read, not against the agent process itself: it can still see its own environment variables. A `deny` rule or a hook is not a security sandbox. Then block the agent from reading `.env` and the MCP config — with a `deny` rule in the permission settings and/or a `PreToolUse` hook. A line in `CLAUDE.md` like "do not read .env" is not enough.
 3. Start a new session, type "hi", and find out what is actually sent to the model. In Claude Code run `/context` (required). Optionally, put a logging proxy between the agent and the API (see the exercise in [before the interview](../../ru/interview/before-interview.md) — note that a custom base URL turns off some optimizations, so the request gets bigger).
 
 **Definition of Done**
