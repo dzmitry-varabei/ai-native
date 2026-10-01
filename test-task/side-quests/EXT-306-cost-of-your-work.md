@@ -9,7 +9,7 @@
 
 **The real problem behind the quest:** production bootcamps run an early-stop rule — if a small task has already eaten $10 at the spec stage, it gets stopped and taken apart; without the habit of looking at the price, that rule never fires.
 
-**The task:** using `report/report.json` and the `/cost` data from your sessions, break down the cost of your route: what each task cost; within one spec-driven task — how much went to the spec, the plan, the implementation; compare an average free-form task with a spec-driven one.
+**The task:** using the analytics report (`report/codemie-analytics-<date>.report.json`) and the `/usage` data from your sessions, break down the cost of your route: what each task cost; within one spec-driven task — how much went to the spec, the plan, the implementation; compare an average free-form task with a spec-driven one.
 
 **Definition of Done:**
 - [ ] `docs/tokenomics.md`: a table of "task → sessions → tokens → cost estimate"
