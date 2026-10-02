@@ -1,7 +1,7 @@
 # Interview questions: the AI part
 
 > Written in tandem: Dzmitry Varabei and Claude Fable, September 21, 2026.
-> [Читать по-русски](../ru/interview-questions.md). Translated from the Russian original; the Russian version is canonical.
+> [Читать по-русски](../ru/interview/ai-part.md). Translated from the Russian original; the Russian version is canonical.
 
 Questions that come up at interviews for AI Native positions, the AI part. There are no answers here: next to each question, in brackets, is the area from the [AI SDLC requirements](./requirements/ai-sdlc.md) to prepare. Questions on SDLC and critical thinking are in the [SDLC requirements](./requirements/sdlc.md).
 

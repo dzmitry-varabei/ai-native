@@ -2,7 +2,7 @@
 
 > Written in tandem: Dzmitry Varabei and Claude Fable.
 > August 14–21, 2026. One more review: September 3, 2026.
-> [Читать по-русски](../ru/03-ai-factory.md). Translated from the Russian original; the Russian version is canonical.
+> [Читать по-русски](../ru/longread/03-ai-factory.md). Translated from the Russian original; the Russian version is canonical.
 
 The words "AI factory" sound like a plant with magic inside. Let's take it apart down to its contents — and it will turn out there's nothing inside that you couldn't build yourself. That's the good news.
 

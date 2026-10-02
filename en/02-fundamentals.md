@@ -3,7 +3,7 @@
 > Written in tandem: Dzmitry Varabei and Claude Fable, August 14–21, 2026.
 > Edited by ChatGPT (GPT-5.6 Sol). One more review: September 3, 2026.
 > Skip this doc if you already know the terms LLM, harness, agent, context, skill, and spec.
-> [Читать по-русски](../ru/02-fundamentals.md). Translated from the Russian original; the Russian version is canonical.
+> [Читать по-русски](../ru/longread/02-fundamentals.md). Translated from the Russian original; the Russian version is canonical.
 
 Back in 2023, even the strongest LLMs often failed at hard high-school-level math problems.
 In 2024, specialized Google systems reached silver-medal level at the IMO (International Mathematical Olympiad) for the first time.

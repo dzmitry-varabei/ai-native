@@ -2,7 +2,7 @@
 > Written in tandem: Dzmitry Varabei and Claude Fable, critiqued by GPT Sol.
 > August 13, 2026. Writing and refactoring time: 6+ hours
 > August 17, 2026. 1 hour
-> [Читать по-русски](../ru/01-economics-and-engineer-role.md). Translated from the Russian original; the Russian version is canonical.
+> [Читать по-русски](../ru/longread/01-economics-and-engineer-role.md). Translated from the Russian original; the Russian version is canonical.
 
 ## How the custom software development market has worked for the last 30+ years
 
